@@ -1,0 +1,14 @@
+dao\DAO.class
+dto\SystemUserDto.class
+validation\emailvalidation.class
+com\khalil\webapps2020\resources\JavaEE8Resource.class
+jsf\auth.class
+jsf\Navigation.class
+dao\SystemUserDao.class
+ejb\EmailAlreadyExistsException.class
+com\khalil\webapps2020\JAXRSConfiguration.class
+ejb\SystemUserService.class
+dao\JpaSystemUserDao.class
+dao\JpaDao.class
+entity\SystemUser.class
+ejb\SystemUserServiceImpl.class
