@@ -18,20 +18,18 @@
             30
         </session-timeout>
     </session-config>
+    
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
-    
-<!--        Security
-    Roles
-    <security-role>
+ 
+ <security-role>
         <role-name>users</role-name>
     </security-role>
     <security-role>
         <role-name>admins</role-name>
     </security-role>
 
-    Constraints
        
     <security-constraint>
         <display-name>ForUsers</display-name>
@@ -45,7 +43,7 @@
             <role-name>admins</role-name>
         </auth-constraint>
         <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+            <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
 
@@ -62,7 +60,7 @@
             <role-name>admins</role-name>
         </auth-constraint>
         <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+            <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
 
@@ -70,19 +68,20 @@
         <display-name>ForAll</display-name>
         <web-resource-collection>
             <web-resource-name></web-resource-name>
-            <url-pattern>/authenticate/*</url-pattern>
+            <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+            <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-
-    <login-config>
+    
+    
+        <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>WebappsRealm</realm-name>
         <form-login-config>
-            <form-login-page>/authenticate/login.xhtml</form-login-page>
-            <form-error-page>/authenticate/login-with-error.xhtml</form-error-page> 
+            <form-login-page>/signin.xhtml</form-login-page>
+            <form-error-page>/index.xhtml</form-error-page> 
         </form-login-config>
-    </login-config>-->
+    </login-config>
 </web-app>

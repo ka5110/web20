@@ -6,17 +6,27 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:define name="content">
             <h3 class="ui-g-12">Please register</h3>
-            <h:form class="ui-g-12" id="registerForm">
-                    <p:outputLabel class="ui-g-2" for="email" value="Email"/><br/><br/>       
-                    <p:inputText class="ui-g-6" validator="validateEmail" required="true" id="email" value="#{authoriz.getUserDto().username}"/><br/>
-                    <p:message for="email" class="ui-g-4" /><br/><br/>       
-                    <p:outputLabel class="ui-g-2" for="password" value="Password"/><br/><br/>       
-                    <p:inputText class="ui-g-6" required="true" type="password" id="password" value="#{authoriz.getUserDto().userpassword}"/><br/>
-                    <p:message for="password" class="ui-g-4"/><br/><br/>       
-                    <p:outputLabel class="ui-g-2" for="name" value="Name"/><br/><br/>       
-                    <p:inputText class="ui-g-6" required="true" id="name" value="#{authoriz.getUserDto().name}"/><br/><br/>       
-                    <p:message for="password" class="ui-g-4"/>
-                    <p:commandButton class="ui-g-2" ajax="false" action="#{authoriz.register}" value="Submit!"/><br/>       <br/>       
+            <h:form id="registerForm">
+                    <p:outputLabel  for="email" value="Email"/><br/><br/>       
+                    <p:inputText  validator="validateEmail" required="true" id="email" value="#{authoriz.getUserDto().username}"/><br/>
+                    <p:message for="email" class="ui-g-4" /><br/><br/>   
+                            <p:separator />
+
+                    <p:outputLabel  for="password" value="Password"/><br/><br/>       
+                    <p:inputText  required="true" type="password" id="password" value="#{authoriz.getUserDto().userpassword}"/><br/>
+                    <p:message for="password" class="ui-g-4"/><br/><br/>  
+                            <p:separator />
+
+                    <p:outputLabel for="name" value="Name"/><br/><br/>       
+                    <p:inputText required="true" id="name" value="#{authoriz.getUserDto().name}"/><br/><br/>       
+                    <p:message for="password" />
+                            <p:separator />
+
+                    <p:outputLabel for="currency" value="currency"/><br/><br/>       
+                    <p:inputText required="true" id="currency" value="#{authoriz.currency}"/><br/><br/>       
+                    <p:message for="currency" />
+
+                    <p:commandButton  ajax="false" action="#{authoriz.register}" value="Submit!"/><br/>       <br/>       
                     <p:button outcome="signin" value="Sign-in"/> <br/><br/>       
             </h:form>
     </ui:define>

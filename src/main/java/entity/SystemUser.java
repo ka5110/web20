@@ -9,13 +9,13 @@ import dto.SystemUserDto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -38,15 +38,48 @@ public class SystemUser implements Serializable {
     @NotNull
     private String name;
 
+    
+    @OneToOne(mappedBy = "user",  cascade = CascadeType.ALL)
+    private SystemUserGroup userGroup;
+    
+   
+    @OneToOne(mappedBy = "systemUser",cascade = CascadeType.ALL)
+    private Account account;
+     
+    @OneToMany(mappedBy = "transactionHolder")
+    private List<Transac> transactions;
+
     public SystemUser() {
     }
 
-    public SystemUser(Long id, String username, String userpassword, String name) {
+   
+
+    public SystemUser(Long id, String username, String userpassword, String name, SystemUserGroup userGroup, Account account) {
         this.id = id;
         this.username = username;
         this.userpassword = userpassword;
         this.name = name;
+        this.userGroup = userGroup;
+        this.account = account;
     }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+
+    public SystemUserGroup getUserGroup() {
+        return userGroup;
+    }
+
+    public void setUserGroup(SystemUserGroup userGroup) {
+        this.userGroup = userGroup;
+    }
+    
 
     public Long getId() {
         return id;
@@ -79,6 +112,14 @@ public class SystemUser implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    
+     public List<Transac> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transac> transactions) {
+        this.transactions = transactions;
+    }
 
         public SystemUserDto toDto() {
         
@@ -86,8 +127,10 @@ public class SystemUser implements Serializable {
                 this.id,
                 this.username,
                 this.userpassword,
-                this.name
-               
+                this.name,
+                this.account == null ? null : this.account.asDto(),
+                this.userGroup
+
         );
     }
 
@@ -97,50 +140,10 @@ public class SystemUser implements Serializable {
         }
         List<SystemUserDto> userDtos = new ArrayList<>();
 
-        for (SystemUser user : users) {
+        users.forEach((user) -> {
             userDtos.add(user.toDto());
-        }
+        });
 
         return userDtos;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 13 * hash + Objects.hashCode(this.id);
-        hash = 13 * hash + Objects.hashCode(this.username);
-        hash = 13 * hash + Objects.hashCode(this.userpassword);
-        hash = 13 * hash + Objects.hashCode(this.name);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final SystemUser other = (SystemUser) obj;
-        if (!Objects.equals(this.username, other.username)) {
-            return false;
-        }
-        if (!Objects.equals(this.userpassword, other.userpassword)) {
-            return false;
-        }
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
-    }
-    
-    
-    
 }

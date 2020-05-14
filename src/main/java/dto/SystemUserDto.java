@@ -6,7 +6,9 @@
 package dto;
 
 import entity.SystemUser;
+import entity.SystemUserGroup;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,24 +20,26 @@ public class SystemUserDto implements Serializable {
     private String username;
     private String userpassword;
     private String name;
+    private AccountDto account;
+    private SystemUserGroup userGroup;
+
     
     public SystemUserDto() {
     }
 
-    public SystemUserDto(
-            Long id,
-            String username,
-            String userpassword,
-            String name
-          
-            ) {
+    public SystemUserDto(Long id, String username, String userpassword, String name, AccountDto account, SystemUserGroup userGroup) {
         this.id = id;
         this.username = username;
         this.userpassword = userpassword;
         this.name = name;
-   
-            }
+        this.account = account;
+        this.userGroup = userGroup;
+    }
 
+
+
+
+   
    
 
     public SystemUser asEntity() {
@@ -44,10 +48,20 @@ public class SystemUserDto implements Serializable {
         user.setUsername(this.username);
         user.setUserpassword(this.userpassword);
         user.setName(this.name);
+        user.setAccount(this.account != null ? this.account.asEntity() : null);
+
 
         return user;
     }
 
+    public AccountDto getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountDto account) {
+        this.account = account;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -80,14 +94,15 @@ public class SystemUserDto implements Serializable {
         this.name = name;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.id);
-        hash = 53 * hash + Objects.hashCode(this.username);
-        hash = 53 * hash + Objects.hashCode(this.userpassword);
-        hash = 53 * hash + Objects.hashCode(this.name);
+        hash = 23 * hash + Objects.hashCode(this.id);
+        hash = 23 * hash + Objects.hashCode(this.username);
+        hash = 23 * hash + Objects.hashCode(this.userpassword);
+        hash = 23 * hash + Objects.hashCode(this.name);
+        hash = 23 * hash + Objects.hashCode(this.account);
+        hash = 23 * hash + Objects.hashCode(this.userGroup);
         return hash;
     }
 
@@ -112,12 +127,19 @@ public class SystemUserDto implements Serializable {
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-       
         if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.account, other.account)) {
+            return false;
+        }
+      
+        if (!Objects.equals(this.userGroup, other.userGroup)) {
             return false;
         }
         return true;
     }
+
 
     }
 

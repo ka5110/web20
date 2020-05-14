@@ -9,15 +9,17 @@ import dto.SystemUserDto;
 import ejb.EmailAlreadyExistsException;
 import ejb.SystemUserService;
 import entity.SystemUser;
+import java.io.IOException;
 import java.io.Serializable;import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.view.ViewScoped;
-
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletException;
 
 /**
  *
@@ -30,11 +32,28 @@ public class auth implements Serializable {
     private SystemUserDto systemUserDto;
     
 
-    @Inject
-    private Navigation navigation;
    
     @EJB
     SystemUserService systemUserService;
+    
+    private String errorMsg;
+    private String currency;
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
     
     
         public auth() {
@@ -47,7 +66,7 @@ public class auth implements Serializable {
         return systemUserDto;
     }
       
-            public String register() {   
+            public void register() {   
         try {
             String hashedPassword = this.encodePassword();
             System.out.println("password hashed");
@@ -56,11 +75,37 @@ public class auth implements Serializable {
             user.setUserpassword(hashedPassword);
 
             try {
-                this.systemUserService.registerUser(user);
+                this.systemUserService.registerUser(user, currency);
                 System.out.println("registered in database?");
             } catch (EmailAlreadyExistsException e) {
                 System.out.println("error calling registerUser Service");
-                return navigation.getREGISTER_FAILURE();
+            }
+        } 
+        catch (Exception ex) {
+            ex.printStackTrace();
+                System.out.println("Error");
+            
+
+
+        }
+
+            }
+            
+        
+       public void registerAdmin() throws EmailAlreadyExistsException {
+   
+          try {
+            String hashedPassword = this.encodePassword();
+            System.out.println("password hashed");
+            SystemUser adminuser = this.systemUserDto.asEntity();
+            System.out.println("DTO entity created");
+            adminuser.setUserpassword(hashedPassword);
+
+            try {
+                this.systemUserService.registerAdmin(adminuser, currency);
+                System.out.println("registered in database?");
+            } catch (EmailAlreadyExistsException e) {
+                System.out.println("error calling registerUser Service");
             }
 
         } 
@@ -68,15 +113,13 @@ public class auth implements Serializable {
             ex.printStackTrace();
                 System.out.println("Error");
             
-
-            return navigation.getREGISTER_FAILURE();
-
         }
-
-        return navigation.getREGISTER_SUCCESS();
-    }
-            
+    }        
       
+            
+
+   
+
           private static String bytesToHex(byte[] bytes) {
         StringBuffer result = new StringBuffer();
         for (byte b : bytes) {
@@ -91,6 +134,32 @@ public class auth implements Serializable {
         return bytesToHex(md.digest());
     }
         
+            private void loginToServer(String username, String password) throws ServletException {
+        try {
+            this.systemUserService.loginUser(username, password);
+        } catch (ServletException e) {
+            throw e;
+        }
+    }
+
+        
+            public void login() {
+        try {
+            this.loginToServer(this.systemUserDto.getUsername(), this.systemUserDto.getUserpassword());
+        } catch (ServletException e) {
+            this.errorMsg = "Invalid username or password";
+    
+    }
+            }
+    public void logout() {
+        try {
+            this.systemUserService.logout();
+
+        } catch (IOException ex) {
+            Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Failed");
+        }
+    }
        
 
 }

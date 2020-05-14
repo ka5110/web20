@@ -1,12 +1,32 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Sign in Page</title>
-    </h:head>
-    <h:body>
-        Sign in here
-    </h:body>
-</html>
+<ui:composition template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content">
+        <h3>Sign in Here</h3>
+        <p:separator />
+        <h:form>
+                    <p:outputLabel  for="email" value="Email"/>
+                    <p:inputText  required="true" id="email" value="#{authoriz.userDto.username}">
+                        <f:validateLength minimum="3"/>
+                        <f:validator validatorId="validateEmail" />
+                    </p:inputText>
+                    <p:message  for="email" /> 
+                            <p:separator />
 
+                    
+                    <p:outputLabel  for="password" value="Password"/>
+                    <p:inputText  type="password" required="true" id="password" value="#{authoriz.userDto.userpassword}"/>
+                    <p:message for="password" />
+                    
+                            <p:separator />
+
+                    <p:commandButton update="loginErrorMsg"  ajax="false" action="#{authoriz.login}" value="Submit!"/>
+                
+        
+       
+        </h:form>
+    </ui:define>
+</ui:composition>

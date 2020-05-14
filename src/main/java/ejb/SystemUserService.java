@@ -19,9 +19,30 @@ public interface SystemUserService {
     
  
 
-    void registerUser(SystemUser user) throws EmailAlreadyExistsException;
+    void registerUser(SystemUser user, String currency) throws EmailAlreadyExistsException;
 
-    
+    void loginUser(String email, String password) throws ServletException;
+
+    void logout() throws IOException;
+
+    boolean isUserAdmin();
+        
+     public void registerAdmin(SystemUser user, String currency) throws EmailAlreadyExistsException;
+
+//    SystemUserDto getCurrentUser();
+//    
+//    List<SystemUserDto> getAllUsers();
+//    
+    SystemUserDto findUser(long id);
+//    
+//    SystemUserDto getByEmail(String email);
+//    
+//    List<SystemUserDto> getAllNormalUsers();
+//    
+//    List<SystemUserDto> getAllAdminUsers();
+//
+
+        
 
 }
 

@@ -1,0 +1,22 @@
+<ui:composition template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content">
+            <h:form>
+                <p:panel id="basic" header="Administrator Dashboard" style="margin-bottom:20px">
+                    <p:panelGrid columnClasses="ui-g-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+                                 columns="1">
+                        <h:outputText value="Hello Admin!"/>
+                        <p:panelGrid layout="grid" styleClass="ui-panelgrid-blank ui-fluid" columns="2">
+                            <p:button outcome="registernewadmin" value="Register new Admin"/> <br/>
+<!--                    <p:button outcome="" value="View User Accounts"/> <br/>
+                    <p:button outcome="" value="View All transactions"/> <br/>-->
+                        </p:panelGrid>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+    </ui:define>
+</ui:composition>
